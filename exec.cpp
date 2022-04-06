@@ -14,7 +14,7 @@ enum types typeof(std::string i)
 {
   if(i[0] == '[' && *i.end() == ']')
     return types::ARRAY;
-  else if(atoi(i) != 0)
+  else if(atoi(i.c_str()) != 0)
     return types::NUMBER;
   else if(i.find(34) != std::string::npos)
     return types::STRING;
@@ -30,6 +30,15 @@ struct var getvar(std::string str, int start = 0)
     cpy.push_back(str[a]);
   struct var = {.type = typeof(cpy); };
   return var;
+}
+
+bool isnull(std::string x)
+{
+  if(x[0] == '{' && x[1] == '}')
+    return true;
+  if(atoi(x.c_str()) == 0)
+    return true;
+  return false;
 }
 
 int valof(std::string expr) // executes an statement
