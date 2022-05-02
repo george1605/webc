@@ -74,7 +74,9 @@ var ReactDOM = {
     },
     render(x)
     {
-        var a = x();
+        var a = x;
+        if(typeof x === "function")
+            a = x();
         if(a.innerHTML == undefined)
             document.write("<div id='root'><h1>null</h1></div>");
         else
