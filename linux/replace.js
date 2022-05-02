@@ -1,6 +1,6 @@
 // conversion module
 // from JSX to plain JS
-var info = "var x = <Link></Link>; React.append(x);";
+var info = "ReactDOM.createRoot(document.getElementById('root')); ReactDOM.render(<Link></Link>);";
 function Link()
 {
     var x = document.createElement('A');
@@ -64,6 +64,24 @@ var React = {
     }
 };
 
+var ReactDOM = {
+    root: document.body, // by default
+    createRoot(elem)
+    {
+        document.body.innerHTML = "";
+        document.body.appendChild(elem);
+        ReactDOM.root = elem;
+    },
+    render(x)
+    {
+        var a = x();
+        if(a.innerHTML == undefined)
+            document.write("<div id='root'><h1>null</h1></div>");
+        else
+            ReactDOM.root.innerHTML = a;
+    }
+};
+
 function exportApp(x)
 {
     document.body.innerHMTL = String(x);
@@ -80,7 +98,9 @@ function replaceJSX(str)
 
 function preventXSS(str)
 {
-    return str.replace('<', '&lt;').replace('>', '&gt;');
+    str = str.replace('<', '&lt;').replace('>', '&gt;');
+    str = str.replace('onload=','alt=');
+    return str;
 }
 
 function execJSX(str)
